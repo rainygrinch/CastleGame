@@ -6,6 +6,7 @@ public class Game {
 	//Player Attributes
 	int pHP;
 	int pAtk;
+	int maxPAtk = 200;
 	String pWeapon;	
 	String pName;
 	
@@ -14,7 +15,9 @@ public class Game {
 	//Enemy Attributes
 	String enemy;
 	int eAtk;
+	int maxEAtk = 125;
 	int eHP;
+	int maxEHP = 150;
 	String eWeapon;
 	
 	int numHealthPotions = 0;
@@ -24,6 +27,8 @@ public class Game {
 	
 	String specialItem;
 	int blacksmithKey = 0;
+	int blacksmithSword = 1;
+	int blacksmithKnife = 0;
 	
 	//System Objects
 	Scanner input = new Scanner(System.in);
@@ -104,8 +109,8 @@ public class Game {
 		
 		
 		enemy = ("Gaurd");
-		eAtk = 15;
-		eHP = 35;
+		eAtk = rand.nextInt(maxEAtk);
+		eHP = rand.nextInt(maxEHP);
 		eWeapon = ("Sword");
 		
 		sitrep();
@@ -128,6 +133,59 @@ public class Game {
 		
 				} //end townGate method						
 		
+	public void blacksmithDecision() {	
+			
+		
+		System.out.println("You're standing outside a stone building, it seems deserted.");
+		System.out.println("There's an anvil outside, with a shiny new sword next to it");
+		System.out.println("Decision making time, what will you do next " + pName + "?");
+		System.out.println("> 1. Try the door");
+		System.out.println("> 2. Swap your " + pWeapon + " for the Sword");
+		System.out.println("> 3. Go back to the Sign");
+		
+		String blackChoice;
+		
+		blackChoice = input.nextLine();
+		
+		if (blackChoice.equals("1")) {
+			
+			blacksmithKeyInv();
+			
+		}
+		
+		else if (blackChoice.equals("2")) {
+			
+			if (blacksmithSword > 0) {
+				
+				blacksmithSword--;
+				blacksmithKnife++;
+				pWeapon = "Sword(43)";
+				pAtk = 43 + (pHP / 2);
+				
+				System.out.println("\tYou dropped your knife, and took the Sword!");
+				System.out.println("\t# Your attack is now " + pAtk + "! #");
+				blacksmith();
+				
+			}
+			
+			else {
+				System.out.println("\tThere's no Sword here... I think that hangover is affecting your memory!");
+				System.out.println("");
+			}
+		}
+		
+		else if (blackChoice.equals("3")) {
+			
+			townNovac();
+		}
+		
+		else {
+			
+			System.out.println("\tInvalid Command, try again");
+			blacksmith();
+		}
+		
+		}
 	
 	public void blacksmithInterior() {
 		
@@ -260,6 +318,7 @@ public class Game {
 		System.out.println("\t\t\t# The " + enemy + " is left with " + eHP + " HP #");
 		System.out.println("\t\t-----------------------------------------------------");
 	
+		
 		pHP -= eAtk;
 	
 		System.out.println("\t\tYou were attacked by " + enemy + " and took " + eAtk + " damage.");
@@ -406,9 +465,9 @@ System.out.println("\tAfter defeating the " + enemy + " you sit for a moment...t
 	
 	public void sitrep() {
 		
-		System.out.println("HP: " + pHP);
-		System.out.println("Weapon: " + pWeapon);
-		System.out.println("Health Potions: x" + numHealthPotions);
+		System.out.println("\t# HP: " + pHP + " #");
+		System.out.println("\t# Weapon: " + pWeapon + " #");
+		System.out.println("\tHealth Potions: x" + numHealthPotions + " #");
 		System.out.println("\n");
 		
 	}
@@ -416,20 +475,21 @@ System.out.println("\tAfter defeating the " + enemy + " you sit for a moment...t
 	public void fightSequence() {
 		
 		if (pWeapon == ("Knife(30)")) {
-			pAtk = 30;
+			pAtk = 30 + (pHP / 2);
 		}
 		
 		else if (pWeapon == ("Sword(43)")) {
-			pAtk = 43;
+			pAtk = 43 + (pHP / 2);
 		}
 		
 		else {
-			pAtk = 10;
+			pAtk = 10 + (pHP / 2);
 		}
 		
 		while (eHP > 0 && pHP > 0) {
 			
 			System.out.println("");
+			System.out.println("\t# HP: " + pHP + " # Atk: " + pAtk + " # " + enemy + " HP: " + eHP + " # " + enemy + " Atk: " + eAtk + " #");
 			System.out.println("\t# You step up to the " + enemy + " prepared for battle! #");
 			System.out.println("\tWhat do you want to do");
 			System.out.println("\t> 1. Attack with your " + pWeapon);
@@ -443,6 +503,7 @@ System.out.println("\tAfter defeating the " + enemy + " you sit for a moment...t
 		
 				System.out.println("\t\t# You attack the " + enemy + " #");
 				System.out.println(" ");
+				
 				
 				eHP -= pAtk;		
 				
@@ -575,58 +636,7 @@ System.out.println("\tAfter defeating the " + enemy + " you sit for a moment...t
 		
 		sitrep();
 		findRandomItem();
-		
-		int blacksmithSword = 1;
-		int blacksmithKnife = 0;
-		
-		System.out.println("You follow the sign for the Blacksmith, and quickly come upon a small stone building");
-		System.out.println("There's an anvil outside, with a shiny new sword next to it");
-		System.out.println("Decision making time, what will you do next " + pName + "?");
-		System.out.println("> 1. Try the door");
-		System.out.println("> 2. Swap your " + pWeapon + " for the Sword");
-		System.out.println("> 3. Go back to the Sign");
-		
-		String blackChoice;
-		
-		blackChoice = input.nextLine();
-		
-		if (blackChoice.equals("1")) {
-			
-			blacksmithKeyInv();
-			
-		}
-		
-		else if (blackChoice.equals("2")) {
-			
-			if (blacksmithSword > 0) {
-				
-				blacksmithSword--;
-				blacksmithKnife++;
-				pWeapon = "Sword(43)";
-				pAtk = 43;
-				
-				System.out.println("\tYou dropped your knife, and took the Sword!");
-				System.out.println("\t# Your attack is now " + pAtk + "! #");
-				blacksmith();
-				
-			}
-			
-			else {
-				System.out.println("\tThere's no Sword here... I think that hangover is affecting your memory!");
-				System.out.println("");
-			}
-		}
-		
-		else if (blackChoice.equals("3")) {
-			
-			townNovac();
-		}
-		
-		else {
-			
-			System.out.println("\tInvalid Command, try again");
-			blacksmith();
-		}
+		blacksmithDecision();
 		
 	}
 
@@ -640,20 +650,20 @@ System.out.println("\tAfter defeating the " + enemy + " you sit for a moment...t
 				"                                               ");
 		
 		if (pWeapon == ("Knife(30)")) {
-			pAtk = 30;
+			pAtk = 30 + (pHP / 2);
 		}
 		
 		else if (pWeapon == ("Sword(43)")) {
-			pAtk = 43;
+			pAtk = 43 + (pHP / 2);
 		}
 		
 		else {
-			pAtk = 10;
+			pAtk = 10 + (pHP / 2);
 		}
 		
 		enemy = ("Zombie");
-		eAtk = 27;
-		eHP = 59;
+		eAtk = rand.nextInt(maxEAtk);
+		eHP = rand.nextInt(maxEHP);
 		eWeapon = ("Bite");
 		
 		sitrep();
@@ -755,11 +765,40 @@ System.out.println("\tAfter defeating the " + enemy + " you sit for a moment...t
 	}
 	
 	public void enterTownHall() {
+		System.out.println("");
+		System.out.println("\t# 'CRRRREEEEAAAAAAAAAAAAAAAAAAAAKKK!' #");
+		System.out.println("");
+		System.out.println("\tThe door shudders as it opens, and a cold air sweeps over you");
+		System.out.println("\tBlood trickles from your nose... you feel your health plummet!");
+		pHP = pHP - 15;
+		sitrep();
+		System.out.println("");
 		
+		System.out.println("\tIn your petrified state, frozen to the spot, you hear foots step...");
+		System.out.println("\tThe get louder and louder and LOUDER");
+		System.out.println("");
+		zombie();
+		System.out.println("");
+		System.out.println("\tFrom the darkness, a " + enemy + " lunges out and grabs you");
+		System.out.println("\tYou have to do something " + pName + "! What will you do?");
+		System.out.println("\t> 1. Nothing");
+		System.out.println("\t> 2. Nothing");
+		System.out.println("\t> 3. Nothing");
+		
+		pPetrified();
+		
+		System.out.println("\tYou scurry out of the " + enemy + "'s grip, and stand!");
+		
+		fightSequence();
+		
+		hallZombieDefeated();
 	}
 	
 	public void cursedChild() {
 		
+		
+		eAtk = rand.nextInt(maxEAtk);
+		eHP = rand.nextInt(maxEHP);
 		String choiceCursedChild;
 		choiceCursedChild = input.nextLine();
 		
