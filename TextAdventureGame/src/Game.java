@@ -1,5 +1,29 @@
 import java.util.*;
 
+// TODO: implement this
+
+/// Represents any character in the game world.
+public class Character {
+	
+	/// The name of the character
+	String name;
+	
+	/// The total health of this character
+	int maximumHealth;
+	
+	/// The current health of this character.
+	///
+	/// Cannot exceed the characters maximum health.
+	/// If this value is less than 0, the character is considered dead.
+	int currentHealth;
+	
+	String weapon;
+	
+	/// TODO: implement the remaining common variables.
+	
+	/// TODO: implement a constructor.
+}
+
 public class Game {
 	
 	
